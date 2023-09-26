@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=MuseoModerno:wght@800&family=Roboto:wght@100&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #fff;
+    font-size: 6em;
+    text-transform: uppercase;
+    font-family: 'MuseoModerno', "Arial Black", sans-serif;
+}
+
+h1.invert {
+    color: #101010;
+}
+
+section {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-direction: column;
+    padding-bottom: 20vh;
+}
+
+section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    clip-path: polygon(0 100%, 100% 85%, 100% 100%, 0% 100%);
+}
+
+section.header,
+section.hobbies,
+section.skills,
+section.about::before,
+section.projects::before,
+section.about::before {
+    background-color: #101010;
+}
+
+
+section.about,
+section.projects,
+section.header::before,
+section.hobbies::before,
+section.skills::before {
+    background-color: #eeeeee;
+}
+
+section.header {
+    background-color: #050505;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+section.header > div.background > canvas {
+    overflow: hidden;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+}
+
+section.header > div.background {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+section.header > div.background > h1 {
+    /*position: absolute;*/
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
+}
+
+section.header > header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 40vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+section.header > header > a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.2em;
+    position: relative;
+    margin: 1em 3em;
+    transition: 0.2s;
+    opacity: 0;
+    visibility: hidden;
+    font-family: "Roboto", sans-serif;
+}
+
+section.header > header:hover a {
+    opacity: 1;
+    visibility: visible;
+}
+
+section.header > header > a:hover::before {
+    height: 2px;
+    transition: height 0.1s ease-in-out;
+    visibility: visible;
+}
+
+section.header > header > a::before {
+    content: "";
+    position: absolute;
+    bottom: -40%;
+    left: 0;
+    height: 0;
+    transition: height 0.1s ease-in-out;
+    width: 100%;
+    background-color: #ffffff;
+    visibility: hidden;
+}
+
+section > p {
+    margin: auto 0;
+    width: 40%;
+    font-size: 1.2em;
+    text-align: justify;
+    position: relative;
+    line-height: 150%;
+}
+
+section > p::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -15px;
+    height: 100%;
+    width: 5px;
+    border-radius: 5px 0 0 5px;
+    background-color: #bbbbbb;
+}
+
+section.skills {
+    color: #ffffff;
+}
+
+section.skills > .languages > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    min-width: 30vw;
+    padding: 1em;
+    border-bottom: #ffffff22 solid 2px;
+}
+
+section.skills .progress-bar {
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+}
+
+section.skills > .languages > .java > .progress-bar {
+    background: radial-gradient(closest-side, #101010 49%, transparent 50%), conic-gradient(#32CD32 65%, #32CD3222 0);
+}
+
+section.skills > .languages > .python > .progress-bar {
+    background: radial-gradient(closest-side, #101010 49%, transparent 50%), conic-gradient(#17BEBB 70%, #17BEBB22 0);
+}
+
+section.skills > .languages > .php > .progress-bar {
+    background: radial-gradient(closest-side, #101010 49%, transparent 50%), conic-gradient(#ff1010 70%, #ff101022 0);
+}
+
+section.skills > .languages > .javascript > .progress-bar {
+    background: radial-gradient(closest-side, #101010 49%, transparent 50%), conic-gradient(#FFFF00 75%, #FFFF0022 0);
+}
+
+section.skills > .languages > .frontend > .progress-bar {
+    background: radial-gradient(closest-side, #101010 49%, transparent 50%), conic-gradient(#FF69B4 80%, #FF69B422 0);
+}
+
+section.skills > p {
+    margin-top: 2em;
+}
