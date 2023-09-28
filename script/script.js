@@ -127,9 +127,6 @@
 // init();
 
 
-
-
-
 // starGeo = new THREE.BufferGeometry();
 // const positionNumComponents = 3;
 // const normalNumComponents = 3;
@@ -139,83 +136,68 @@
 // starGeo.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(uvs), uvNumComponents));
 
 
-const repoList = {};
+fetch('https://api.github.com/users/vraiSlophil/repos', {})
+    .then((response) => {
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            return response.json();
+        } else {
+            throw new Error("Missing JSON header.");
+        }
+    })
+    .then((json) => {
+        const repoListHTML = document.querySelector("section.projects > div.repoList");
 
-fetch('https://api.github.com/users/vraiSlophil/repos', {}).then((response) => {
-    const contentType = response.headers.get("content-type");
-    if (contentType && contentType.indexOf("application/json") !== -1) {
-        return response.json().then((json) => {
-            if (response.ok) {
-                json.forEach((repo) => {
-                    const repoFullName = repo["full_name"];
-                    const repoDescription = repo["description"];
-                    const repoLink = repo["html_url"];
-                    const repoLanguage = repo["language"];
-                    const repoUpdate = repo["updated_at"];
-                    const repoSize = repo["size"];
-                    repoList[repoFullName] = {
-                        repoDescription: repoDescription,
-                        repoLink: repoLink,
-                        repoLanguage: repoLanguage,
-                        repoUpdate: repoUpdate,
-                        repoSize: repoSize,
-                    };
-                });
-            }
+        json.forEach((repo) => {
+            const repoFullName = repo["full_name"];
+            const repoDescription = repo["description"];
+            const repoLink = repo["html_url"];
+            const repoLanguage = repo["language"];
+
+            // Conversion de la date au format lisible
+            const isoDate = repo["updated_at"];
+            const date = new Date(isoDate);
+            // const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
+            const options = { year: 'numeric', month: 'long', day: 'numeric'};
+            const formattedDate = date.toLocaleDateString('fr-FR', options);
+
+            const repoSize = repo["size"];
+
+            const repoElement = document.createElement("div");
+            repoElement.classList.add("repoElement");
+
+            const nameElement = document.createElement("h3");
+            nameElement.classList.add("name");
+            nameElement.textContent = repoFullName;
+
+            const sizeElement = document.createElement("p");
+            sizeElement.classList.add("size");
+            sizeElement.textContent = `${repoSize} Kb`;
+
+            const descriptionElement = document.createElement("p");
+            descriptionElement.classList.add("description");
+            descriptionElement.textContent = repoDescription;
+
+            const languageElement = document.createElement("p");
+            languageElement.classList.add("language");
+            languageElement.textContent = repoLanguage;
+
+            const linkElement = document.createElement("a");
+            linkElement.classList.add("link");
+            linkElement.href = repoLink;
+            linkElement.textContent = repoLink;
+
+            const updateElement = document.createElement("p");
+            updateElement.classList.add("update");
+            updateElement.textContent = `Last Updated: ${formattedDate}`;
+
+            repoElement.append(nameElement, sizeElement, descriptionElement, languageElement, linkElement, updateElement);
+            repoListHTML.appendChild(repoElement);
         });
-    } else {
-        console.error("Missing JSON header.");
-    }
-});
-
-const repoListHTML = document.querySelector("section.projects > div.repoList");
-const repoElementHTML = document.querySelector("section.projects > div.repoList > div.repoElement");
-
-const createElement = (tagName, className) => {
-    const element = document.createElement(tagName);
-    if (className) element.classList.add(className);
-    return element;
-};
-
-for (const [key, value] of Object.entries(repoList)) {
-
-    const repoElement = createElement("div", "repoElement");
-    const nameElement = createElement("h3", "name");
-    repoElement.innerHTML = key;
-    const sizeElement = createElement("p", "size");
-    sizeElement.innerHTML = value["repoSize"];
-    const descriptionElement = createElement("p", "description");
-    descriptionElement.innerHTML = value["repoDescription"];
-    const languageElement = createElement("p", "language");
-    languageElement.innerHTML = value["repoLanguage"];
-    const linkElement = createElement("a", "link");
-    linkElement.href = value["repoLink"];
-    linkElement.innerHTML = value["repoLink"];
-    const updateElement = createElement("p", "update");
-    updateElement.innerHTML = value["repoUpdate"];
-
-    document.body.appendChild(repoElement);
-    repoElement.append(nameElement, sizeElement, descriptionElement, languageElement, linkElement, updateElement);
-
-    // let repoHTML = repoElementHTML.cloneNode();
-    //
-    // repoHTML.style.visibility = "visible";
-    // repoHTML.getElementsByClassName("name").innerHTML = key;
-    // repoHTML.getElementsByClassName("size").innerHTML = value["repoSize"];
-    // repoHTML.getElementsByClassName("description").innerHTML = value["repoDescription"];
-    // repoHTML.getElementsByClassName("language").innerHTML = value["repoLanguage"];
-    // repoHTML.getElementsByClassName("link").innerHTML = value["repoLink"];
-    // repoHTML.getElementsByClassName("link").href = value["repoLink"];
-    // repoHTML.getElementsByClassName("update").innerHTML = value["repoUpdate"];
-    //
-    //
-    //
-    // repoListHTML.appendChild(repoHTML);
-}
-
-
-
-
+    })
+    .catch((error) => {
+        console.error(error);
+    });
 
 
 
@@ -264,7 +246,7 @@ class Vec {
 }
 
 const CENTER = new Vec(window.innerWidth / 2, window.innerHeight / 2);
-const STARS = 400;
+const STARS = 1500;
 
 class Canvas {
     constructor(canvas) {

@@ -112,12 +112,6 @@ section.header > header > nav:hover a {
     visibility: visible;
 }
 
-section.header > header > nav > a:hover::before {
-    height: 2px;
-    transition: height 0.1s ease-in-out;
-    visibility: visible;
-}
-
 section.header > header > nav > a::before {
     content: "";
     position: absolute;
@@ -128,6 +122,12 @@ section.header > header > nav > a::before {
     width: 100%;
     background-color: #ffffff;
     visibility: hidden;
+}
+
+section.header > header > nav > a:hover::before {
+    height: 2px;
+    transition: height 0.1s ease-in-out;
+    visibility: visible;
 }
 
 section > p {
@@ -199,6 +199,7 @@ section.projects > div.repoList {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: 40vw;
 }
 
 section.projects > div.repoList > .repoElement {
@@ -206,14 +207,17 @@ section.projects > div.repoList > .repoElement {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(3, 1fr);
     grid-row-gap: 1em;
-    min-width: 40vw;
+    width: 100%;
     padding: 1em;
     border-bottom: #10101022 solid 2px;
-
 }
 
 section.projects > div.repoList > .repoElement > a {
     text-decoration: none;
+    color: #208420;
+    position: relative;
+    width: max-content;
+    padding: 0 0.5em;
 }
 
 section.projects > div.repoList > .repoElement > .size,
@@ -226,4 +230,22 @@ section.projects > div.repoList > .repoElement > a,
 section.projects > div.repoList > .repoElement > h3,
 section.projects > div.repoList > .repoElement > p {
 
+}
+
+section.projects > div.repoList > .repoElement > a::before {
+    content: "";
+    position: absolute;
+    bottom: -0.1em;
+    left: 0;
+    height: 0;
+    width: 100%;
+    transition: height 0.1s ease-in-out;
+    background-color: #208420;
+    /*background-color: red;*/
+}
+
+
+section.projects > div.repoList > .repoElement > a:hover::before {
+    height: 1px;
+    transition: height 0.1s ease-in-out;
 }
