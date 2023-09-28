@@ -64,35 +64,26 @@ section.header {
     height: 100vh;
     width: 100%;
     overflow: hidden;
-    position: relative;
+    padding: 0 !important;
 }
 
-section.header > div.background > canvas {
-    overflow: hidden;
-    display: block;
+section.header > div.background > canvas,
+section.header > div.background,
+section.header > header {
     position: absolute;
     top: 0;
     left: 0;
-    height: 100%;
     width: 100%;
+    height: 100%;
 }
 
-section.header > div.background {
-    height: 100vh;
-    width: 100%;
+section.header > header {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-section.header > div.background > h1 {
-    /*position: absolute;*/
-    /*top: 50%;*/
-    /*left: 50%;*/
-    /*transform: translate(-50%, -50%);*/
-}
-
-section.header > header {
+section.header > header > nav {
     position: absolute;
     top: 0;
     left: 0;
@@ -104,7 +95,7 @@ section.header > header {
     flex-direction: row;
 }
 
-section.header > header > a {
+section.header > header > nav > a {
     color: #ffffff;
     text-decoration: none;
     font-size: 1.2em;
@@ -116,18 +107,18 @@ section.header > header > a {
     font-family: "Roboto", sans-serif;
 }
 
-section.header > header:hover a {
+section.header > header > nav:hover a {
     opacity: 1;
     visibility: visible;
 }
 
-section.header > header > a:hover::before {
+section.header > header > nav > a:hover::before {
     height: 2px;
     transition: height 0.1s ease-in-out;
     visibility: visible;
 }
 
-section.header > header > a::before {
+section.header > header > nav > a::before {
     content: "";
     position: absolute;
     bottom: -40%;
@@ -201,4 +192,38 @@ section.skills > .languages > .frontend > .progress-bar {
 
 section.skills > p {
     margin-top: 2em;
+}
+
+section.projects > div.repoList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+section.projects > div.repoList > .repoElement {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-row-gap: 1em;
+    min-width: 40vw;
+    padding: 1em;
+    border-bottom: #10101022 solid 2px;
+
+}
+
+section.projects > div.repoList > .repoElement > a {
+    text-decoration: none;
+}
+
+section.projects > div.repoList > .repoElement > .size,
+section.projects > div.repoList > .repoElement > .language,
+section.projects > div.repoList > .repoElement > .update {
+    justify-self: end;
+}
+
+section.projects > div.repoList > .repoElement > a,
+section.projects > div.repoList > .repoElement > h3,
+section.projects > div.repoList > .repoElement > p {
+
 }
