@@ -15,6 +15,10 @@ h1 {
     font-size: 6em;
     text-transform: uppercase;
     font-family: 'MuseoModerno', "Arial Black", sans-serif;
+    overflow: hidden;
+    animation: forwards 1s ease-in-out slideUp;
+    transform: translateY(100%);
+    height: 0;
 }
 
 h1.invert {
@@ -150,7 +154,8 @@ section > p::before {
     background-color: #bbbbbb;
 }
 
-section.skills {
+section.skills,
+section.hobbies {
     color: #ffffff;
 }
 
@@ -190,46 +195,6 @@ section.skills > .languages > .frontend > .progress-bar {
     background: radial-gradient(closest-side, #101010 49%, transparent 50%), conic-gradient(#FF69B4 80%, #FF69B422 0);
 }
 
-section.projects > div.repoList > .repoElement > .languages > p.java {
-    background-color: #32CD32AA;
-}
-
-section.projects > div.repoList > .repoElement > .languages > p.python {
-    background-color: #17BEBBAA;
-}
-
-section.projects > div.repoList > .repoElement > .languages > p.php {
-    background-color: #ff1010AA;
-}
-
-section.projects > div.repoList > .repoElement > .languages > p.javascript {
-    background-color: #FFFF00AA;
-}
-
-section.projects > div.repoList > .repoElement > .languages > p.css,
-section.projects > div.repoList > .repoElement > .languages > p.html {
-    background-color: #FF69B4AA;
-}
-
-section.projects > div.repoList > .repoElement > .languages > p {
-    margin: 0 0.3em;
-    padding: 0.3em 0.8em;
-    border-radius: 1.6em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    box-shadow: 0 0 0.4em 0.05em #00000044 ;
-}
-
-section.projects > div.repoList > .repoElement > .languages {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    flex-direction: row;
-}
-
-
 section.skills > p {
     margin-top: 2em;
 }
@@ -239,7 +204,8 @@ section.projects > div.repoList {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 40vw;
+    min-width: 40vw;
+    width: min-content;
 }
 
 section.projects > div.repoList > .repoElement {
@@ -252,6 +218,7 @@ section.projects > div.repoList > .repoElement {
     border-bottom: #10101022 solid 2px;
 }
 
+
 section.projects > div.repoList > .repoElement > a {
     text-decoration: none;
     color: #208420;
@@ -259,7 +226,6 @@ section.projects > div.repoList > .repoElement > a {
     width: max-content;
     padding: 0 0.5em;
 }
-
 
 section.projects > div.repoList > .repoElement > .size,
 section.projects > div.repoList > .repoElement > .language,
@@ -273,16 +239,17 @@ section.projects > div.repoList > .repoElement > p {
     height: max-content;
 }
 
-section.projects > div.repoList > .repoElement > p {
+section.projects > div.repoList > .repoElement > .description {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 100%;
+    max-width: 30em;
 }
 
 section.projects > div.repoList > .repoElement:hover p {
     white-space: normal;
 }
+
 
 section.projects > div.repoList > .repoElement > a::before {
     content: "";
@@ -293,11 +260,72 @@ section.projects > div.repoList > .repoElement > a::before {
     width: 100%;
     transition: height 0.1s ease-in-out;
     background-color: #208420;
-    /*background-color: red;*/
 }
-
 
 section.projects > div.repoList > .repoElement > a:hover::before {
     height: 1px;
     transition: height 0.1s ease-in-out;
+}
+section.projects > div.repoList > .repoElement > .languages > p {
+    margin: 0 0.3em 0 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    position: relative;
+}
+
+section.projects > div.repoList > .repoElement > .languages > p.java::before {
+    background-color: #32CD32;
+}
+
+section.projects > div.repoList > .repoElement > .languages > p.python::before {
+    background-color: #17BEBB;
+}
+
+section.projects > div.repoList > .repoElement > .languages > p.php::before{
+    background-color: #ff1010;
+}
+
+section.projects > div.repoList > .repoElement > .languages > p.javascript::before {
+    background-color: #FFFF00;
+}
+
+section.projects > div.repoList > .repoElement > .languages > p.css::before,
+section.projects > div.repoList > .repoElement > .languages > p.html::before {
+    background-color: #FF69B4;
+}
+
+section.projects > div.repoList > .repoElement > .languages > p::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    --size: 1em;
+    height: var(--size);
+    width: var(--size);
+    transform: translateX(-1.5em);
+}
+
+section.projects > div.repoList > .repoElement > .languages {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    flex-direction: row;
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(100%);
+        height: 0;
+    }
+    100% {
+        transform: translateY(0%);
+        height: auto;
+    }
+}
+
+section.hobbies > p {
+    margin: 2em 0;
 }

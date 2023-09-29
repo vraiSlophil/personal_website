@@ -4,8 +4,14 @@ function checkJSONResponse(response) {
     return (contentType && contentType.indexOf("application/json") !== -1) ? response.json() : Promise.reject(new Error("Missing JSON header."));
 }
 
+const accessToken = "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";
+
 // Utilisation de la fonction dans vos requêtes
-fetch('https://api.github.com/users/vraiSlophil/repos', {})
+fetch('https://api.github.com/users/vraiSlophil/repos', {
+    headers: {
+        'Authorization': `token ${accessToken}`, 'Accept': 'application/vnd.github.v3+json'
+    }
+})
     .then(checkJSONResponse)
     .then(async (json) => {
         const repoListHTML = document.querySelector("section.projects > div.repoList");
@@ -24,7 +30,11 @@ fetch('https://api.github.com/users/vraiSlophil/repos', {})
 
             // Récupération des langages du dépôt
             const languagesURL = `https://api.github.com/repos/${repoFullName}/languages`;
-            const languagesResponse = await fetch(languagesURL);
+            const languagesResponse = await fetch(languagesURL,{
+                headers: {
+                    'Authorization': `token ${accessToken}`, 'Accept': 'application/vnd.github.v3+json'
+                }
+            });
             const languagesData = await checkJSONResponse(languagesResponse);
 
             const repoElement = document.createElement("div");
@@ -59,7 +69,7 @@ fetch('https://api.github.com/users/vraiSlophil/repos', {})
 
             const updateElement = document.createElement("p");
             updateElement.classList.add("update");
-            updateElement.textContent = `Last Updated: ${formattedDate}`;
+            updateElement.textContent = `Dernier commit : ${formattedDate}`;
 
             repoElement.append(nameElement, sizeElement, descriptionElement, languagesDiv, linkElement, updateElement);
             repoListHTML.appendChild(repoElement);
@@ -196,3 +206,50 @@ class Space {
 
 const canvas = new Canvas(document.querySelector("section.header > div.background > canvas"));
 canvas.draw();
+
+
+// Créez l'élément audio en JavaScript
+// Créez l'élément audio en JavaScript
+const audio = new Audio('../audio/spaceship-cruising-ufo-7176.mp3');
+let isAudioPlaying = false; // Suivez l'état de lecture de l'audio
+
+// Fonction pour gérer le fondu en silence
+function fadeOutAndPause() {
+    if (audio.volume > 0.05) {
+        audio.volume -= 0.05; // Diminue progressivement le volume
+        setTimeout(fadeOutAndPause, 35); // Appel récursif
+    } else {
+        audio.pause(); // Mettez en pause une fois que le volume est bas
+        audio.volume = 1; // Réinitialisez le volume
+    }
+}
+
+// Sélectionnez l'élément que vous souhaitez observer
+const elementToObserve = document.querySelector("section.header > div.background > canvas");
+
+// Configuration de l'IntersectionObserver
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            if (!isAudioPlaying) {
+                // L'élément est devenu visible, jouez l'audio depuis le début
+                audio.currentTime = 0; // Revenir au début de l'audio
+                audio.volume = 1; // Réglez le volume à 1 (volume complet)
+                audio.play();
+                isAudioPlaying = true;
+            }
+        } else {
+            if (isAudioPlaying) {
+                // L'élément est hors de vue, commencez le fondu en silence
+                fadeOutAndPause();
+                isAudioPlaying = false;
+            }
+        }
+    });
+}, { threshold: 0.5 }); // Vous pouvez ajuster le seuil selon vos besoins
+
+// Commencez à observer l'élément cible
+observer.observe(elementToObserve);
+
+
+
