@@ -210,7 +210,7 @@ canvas.draw();
 
 // Créez l'élément audio en JavaScript
 // Créez l'élément audio en JavaScript
-const audio = new Audio('../audio/spaceship-cruising-ufo-7176.mp3');
+const audio = new Audio('./audio/spaceship-cruising-ufo-7176.mp3');
 let isAudioPlaying = false; // Suivez l'état de lecture de l'audio
 
 // Fonction pour gérer le fondu en silence
