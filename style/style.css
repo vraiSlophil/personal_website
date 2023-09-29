@@ -34,11 +34,11 @@ section {
 section::before {
     content: "";
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
-    height: 100%;
+    height: 100vh;
     width: 100%;
-    clip-path: polygon(0 100%, 100% 85%, 100% 100%, 0% 100%);
+    clip-path: polygon(0 100%, 100% 85%, 100% 100%);
 }
 
 section.header,
@@ -190,6 +190,46 @@ section.skills > .languages > .frontend > .progress-bar {
     background: radial-gradient(closest-side, #101010 49%, transparent 50%), conic-gradient(#FF69B4 80%, #FF69B422 0);
 }
 
+section.projects > div.repoList > .repoElement > .languages > p.java {
+    background-color: #32CD32AA;
+}
+
+section.projects > div.repoList > .repoElement > .languages > p.python {
+    background-color: #17BEBBAA;
+}
+
+section.projects > div.repoList > .repoElement > .languages > p.php {
+    background-color: #ff1010AA;
+}
+
+section.projects > div.repoList > .repoElement > .languages > p.javascript {
+    background-color: #FFFF00AA;
+}
+
+section.projects > div.repoList > .repoElement > .languages > p.css,
+section.projects > div.repoList > .repoElement > .languages > p.html {
+    background-color: #FF69B4AA;
+}
+
+section.projects > div.repoList > .repoElement > .languages > p {
+    margin: 0 0.3em;
+    padding: 0.3em 0.8em;
+    border-radius: 1.6em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    box-shadow: 0 0 0.4em 0.05em #00000044 ;
+}
+
+section.projects > div.repoList > .repoElement > .languages {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    flex-direction: row;
+}
+
+
 section.skills > p {
     margin-top: 2em;
 }
@@ -205,7 +245,7 @@ section.projects > div.repoList {
 section.projects > div.repoList > .repoElement {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, 1fr);
+    grid-template-rows: repeat(3, max-content);
     grid-row-gap: 1em;
     width: 100%;
     padding: 1em;
@@ -220,6 +260,7 @@ section.projects > div.repoList > .repoElement > a {
     padding: 0 0.5em;
 }
 
+
 section.projects > div.repoList > .repoElement > .size,
 section.projects > div.repoList > .repoElement > .language,
 section.projects > div.repoList > .repoElement > .update {
@@ -229,7 +270,18 @@ section.projects > div.repoList > .repoElement > .update {
 section.projects > div.repoList > .repoElement > a,
 section.projects > div.repoList > .repoElement > h3,
 section.projects > div.repoList > .repoElement > p {
+    height: max-content;
+}
 
+section.projects > div.repoList > .repoElement > p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+section.projects > div.repoList > .repoElement:hover p {
+    white-space: normal;
 }
 
 section.projects > div.repoList > .repoElement > a::before {

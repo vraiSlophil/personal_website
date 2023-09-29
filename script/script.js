@@ -1,167 +1,31 @@
-// const canvas = document.querySelector("canvas");
-//
-// const context = canvas.getContext('2d');
-//
-// let xCenter = canvas.width / 2;
-// let yCenter = canvas.height / 2;
-//
-// const zoomSpeed = 2;
-//
-// const stars = [];
-// const starCount = 100;
-// const starImage = new Image();
-// starImage.src = "../image/star.png";
-// function generateRandomCoordinates() {
-//
-//     const x = Math.random() * canvas.width;
-//     const y = Math.random() * canvas.height;
-//
-//     const vector = { x: x - xCenter, y: y - yCenter };
-//
-//     const magnitude = Math.sqrt(vector.x * vector.x + vector.y * vector.y);
-//     const normalizedVector = {x: vector.x / magnitude, y: vector.y / magnitude};
-//
-//     return({x: x, y: y, vector: normalizedVector, speed: Math.random() + 0.5});
-//
-// }
-//
-// for (let i = 0; i < starCount; i++) {
-//     stars.push(generateRandomCoordinates());
-// }
-//
-// (function updatePoint() {
-//
-//     context.clearRect(0, 0, canvas.width, canvas.height);
-//
-//     stars.forEach((star, index) => {
-//         if (star.x < -30 || star.x > canvas.width + 30 || star.y < -30 || star.y > canvas.height + 30) {
-//             stars.splice(index, 1, generateRandomCoordinates());
-//         } else {
-//             star.x = star.x + star.vector.x * star.speed;
-//             star.y = star.y + star.vector.y * star.speed;
-//         }
-//
-//         context.drawImage(starImage, star.x, star.y, 3, 3)
-//
-//     });
-//     requestAnimationFrame(updatePoint);
-// })();
-//
-//
-//
-//
-// console.log(repoList);
-//
-// import * as THREE from "three";
-//
-// let scene, camera, renderer, starGeo, stars;
-// const starVertices = [];
-//
-// function init() {
-//     // Création de la scène
-//     scene = new THREE.Scene();
-//
-//     // Configuration de la caméra
-//     camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1000);
-//     camera.position.z = 1;
-//     camera.rotation.x = Math.PI / 2;
-//
-//     // Configuration du rendu
-//     renderer = new THREE.WebGLRenderer();
-//     const headerBackground = document.querySelector("section.header > div.background");
-//     renderer.setSize(window.innerWidth, window.innerHeight);
-//     headerBackground.appendChild(renderer.domElement);
-//
-//     // Création de la géométrie et des vertices
-//     starGeo = new THREE.BufferGeometry();
-//
-//     for (let i = 0; i < 6000; i++) {
-//         let star = new THREE.Vector3(
-//             Math.random() * 600 - 300,
-//             Math.random() * 600 - 300,
-//             Math.random() * 600 - 300
-//         );
-//         star.velocity = 0;
-//         star.acceleration = 0.02;
-//         starVertices.push(star.x, star.y, star.z);
-//     }
-//
-//     starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-//
-//     // Chargement de la texture
-//     const sprite = new THREE.TextureLoader().load('../image/star.png');
-//     const starMaterial = new THREE.PointsMaterial({
-//         color: 0xaaaaaa,
-//         size: 0.07, // Ajustez la taille à votre convenance
-//         map: sprite
-//     });
-//
-//     // Création des étoiles avec BufferGeometry
-//     stars = new THREE.Points(starGeo, starMaterial);
-//     scene.add(stars);
-//
-//     animate();
-// }
-//
-// // Boucle de rendu
-// // Boucle de rendu
-// function animate() {
-//     starVertices.forEach((_, i) => {
-//         starVertices[i] += starVertices[i + 3];
-//         starVertices[i + 1] += starVertices[i + 4];
-//         starVertices[i + 2] += starVertices[i + 5];
-//
-//         if (starVertices[i + 2] < -200) {
-//             starVertices[i] = Math.random() * 600 - 300;
-//             starVertices[i + 1] = Math.random() * 600 - 300;
-//             starVertices[i + 2] = 600; // Placez les étoiles au-dessus de la caméra
-//         }
-//     });
-//
-//     starGeo.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
-//     renderer.render(scene, camera);
-//     requestAnimationFrame(animate);
-// }
-//
-//
-// init();
+// Fonction pour vérifier le contenu JSON dans les en-têtes de réponse
+function checkJSONResponse(response) {
+    const contentType = response.headers.get("content-type");
+    return (contentType && contentType.indexOf("application/json") !== -1) ? response.json() : Promise.reject(new Error("Missing JSON header."));
+}
 
-
-// starGeo = new THREE.BufferGeometry();
-// const positionNumComponents = 3;
-// const normalNumComponents = 3;
-// const uvNumComponents = 2;
-// starGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), positionNumComponents));
-// starGeo.setAttribute('normal', new THREE.BufferAttribute(new Float32Array(normals), normalNumComponents));
-// starGeo.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(uvs), uvNumComponents));
-
-
+// Utilisation de la fonction dans vos requêtes
 fetch('https://api.github.com/users/vraiSlophil/repos', {})
-    .then((response) => {
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.indexOf("application/json") !== -1) {
-            return response.json();
-        } else {
-            throw new Error("Missing JSON header.");
-        }
-    })
-    .then((json) => {
+    .then(checkJSONResponse)
+    .then(async (json) => {
         const repoListHTML = document.querySelector("section.projects > div.repoList");
 
-        json.forEach((repo) => {
+        for (const repo of json) {
             const repoFullName = repo["full_name"];
             const repoDescription = repo["description"];
             const repoLink = repo["html_url"];
-            const repoLanguage = repo["language"];
+            const repoSize = repo["size"];
 
             // Conversion de la date au format lisible
             const isoDate = repo["updated_at"];
             const date = new Date(isoDate);
-            // const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
             const options = { year: 'numeric', month: 'long', day: 'numeric'};
             const formattedDate = date.toLocaleDateString('fr-FR', options);
 
-            const repoSize = repo["size"];
+            // Récupération des langages du dépôt
+            const languagesURL = `https://api.github.com/repos/${repoFullName}/languages`;
+            const languagesResponse = await fetch(languagesURL);
+            const languagesData = await checkJSONResponse(languagesResponse);
 
             const repoElement = document.createElement("div");
             repoElement.classList.add("repoElement");
@@ -178,9 +42,15 @@ fetch('https://api.github.com/users/vraiSlophil/repos', {})
             descriptionElement.classList.add("description");
             descriptionElement.textContent = repoDescription;
 
-            const languageElement = document.createElement("p");
-            languageElement.classList.add("language");
-            languageElement.textContent = repoLanguage;
+            const languagesDiv = document.createElement("div");
+            languagesDiv.classList.add("languages");
+
+            for (const lang of Object.keys(languagesData)) {
+                const langElement = document.createElement("p");
+                langElement.textContent = lang;
+                langElement.classList.add(lang.toLowerCase()); // Ajoute une classe avec le nom du langage en minuscules
+                languagesDiv.appendChild(langElement);
+            }
 
             const linkElement = document.createElement("a");
             linkElement.classList.add("link");
@@ -191,9 +61,9 @@ fetch('https://api.github.com/users/vraiSlophil/repos', {})
             updateElement.classList.add("update");
             updateElement.textContent = `Last Updated: ${formattedDate}`;
 
-            repoElement.append(nameElement, sizeElement, descriptionElement, languageElement, linkElement, updateElement);
+            repoElement.append(nameElement, sizeElement, descriptionElement, languagesDiv, linkElement, updateElement);
             repoListHTML.appendChild(repoElement);
-        });
+        }
     })
     .catch((error) => {
         console.error(error);
