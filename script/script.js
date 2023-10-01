@@ -9,7 +9,7 @@ const accessToken = "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";
 // Utilisation de la fonction dans vos requêtes
 fetch('https://api.github.com/users/vraiSlophil/repos', {
     headers: {
-        'Authorization': `token ${accessToken}`, 'Accept': 'application/vnd.github.v3+json'
+        'Authorization': `Basic ${accessToken}`, 'Accept': 'application/vnd.github.v3+json'
     }
 })
     .then(checkJSONResponse)
@@ -32,7 +32,7 @@ fetch('https://api.github.com/users/vraiSlophil/repos', {
             const languagesURL = `https://api.github.com/repos/${repoFullName}/languages`;
             const languagesResponse = await fetch(languagesURL,{
                 headers: {
-                    'Authorization': `token ${accessToken}`, 'Accept': 'application/vnd.github.v3+json'
+                    'Authorization': `Basic ${accessToken}`, 'Accept': 'application/vnd.github.v3+json'
                 }
             });
             const languagesData = await checkJSONResponse(languagesResponse);
