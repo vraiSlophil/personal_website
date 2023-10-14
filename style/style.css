@@ -135,7 +135,8 @@ section.header > header > nav > a:hover::before {
     visibility: visible;
 }
 
-section > p {
+section > p,
+section > div > p {
     margin: auto 0;
     width: 40%;
     font-size: 1.2em;
@@ -144,7 +145,8 @@ section > p {
     line-height: 150%;
 }
 
-section > p::before {
+section > p::before,
+section > div > p::before {
     content: "";
     position: absolute;
     top: 0;
@@ -327,6 +329,50 @@ section.projects > div.repoList > .repoElement > .languages {
     }
 }
 
-section.hobbies > p {
+section.hobbies > p,
+section.hobbies > div > p {
     margin: 2em 0;
+}
+
+section.hobbies > div {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: row;
+}
+
+section.hobbies > .design > .image {
+    min-width: 30em;
+    min-height: 24em;
+    background: linear-gradient(to top, #101010, transparent), url("../image/design.jpg");
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+}
+
+section.hobbies > .cooking > .image {
+    min-width: 30em;
+    min-height: 24em;
+    background: linear-gradient(to top, #101010, transparent), url("../image/cooking.png");
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+}
+
+section.hobbies > .engineering > .image {
+    min-width: 30em;
+    min-height: 24em;
+    background: linear-gradient(to top, #101010, transparent), url("../image/engineering.png");
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
+}
+
+section.hobbies > .learning > .image {
+    min-width: 30em;
+    min-height: 24em;
+    background: linear-gradient(to top, #101010, transparent), url("../image/learning.png");
+    background-size: cover;
+    background-position: top;
+    background-repeat: no-repeat;
 }
